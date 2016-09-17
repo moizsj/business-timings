@@ -108,76 +108,76 @@
 
 
 (defn- business-hours-start-today
-  [timings dt]
+  [time-slot dt]
   (t/from-time-zone
     (t/date-time (t/year dt) (t/month dt) (t/day dt)
-                 (get-in timings [:from :hours])
-                 (get-in timings [:from :minutes]))
-    (t/time-zone-for-id (:timezone timings))))
+                 (get-in time-slot [:from :hours])
+                 (get-in time-slot [:from :minutes]))
+    (t/time-zone-for-id (:timezone time-slot))))
 
 
 (defn- business-hours-end-today
-  [timings dt]
-  (let [end-hour (get-in timings [:to :hours])
-        end-minute (get-in timings [:to :minutes])]
+  [time-slot dt]
+  (let [end-hour (get-in time-slot [:to :hours])
+        end-minute (get-in time-slot [:to :minutes])]
     (t/from-time-zone
       (if (every? zero? [end-hour end-minute])
         (t/date-time (t/year dt) (t/month dt) (t/day dt) 23 59 59 999)
         (t/date-time (t/year dt) (t/month dt) (t/day dt) end-hour end-minute))
-      (t/time-zone-for-id (:timezone timings)))))
+      (t/time-zone-for-id (:timezone time-slot)))))
 
 
 (defn- busines-hours-start-yesterday
-  [timings dt]
-  (t/minus (business-hours-start-today timings dt) (t/days 1)))
+  [time-slot dt]
+  (t/minus (business-hours-start-today time-slot dt) (t/days 1)))
 
 
 (defn- business-hours-end-yesterday
-  [timings dt]
-  (t/minus (business-hours-end-today timings dt) (t/days 1)))
+  [time-slot dt]
+  (t/minus (business-hours-end-today time-slot dt) (t/days 1)))
 
 
 (defn- business-hours-start-tomorrow
-  [timings dt]
-  (t/plus (business-hours-start-today timings dt) (t/days 1)))
+  [time-slot dt]
+  (t/plus (business-hours-start-today time-slot dt) (t/days 1)))
 
 
 (defn- business-hours-end-tomorrow
-  [timings dt]
-  (t/plus (business-hours-end-today timings dt) (t/days 1)))
+  [time-slot dt]
+  (t/plus (business-hours-end-today time-slot dt) (t/days 1)))
 
 
 (defn within-todays-business-timings?
   [business-timings dt]
   (when (business-day-today? business-timings dt)
-    (let [timings (timings-today business-timings dt)]
-      (some (fn [timing]
-              (t/within? (business-hours-start-today timing dt)
-                         (business-hours-end-today timing dt)
+    (let [time-slots (timings-today business-timings dt)]
+      (some (fn [time-slot]
+              (t/within? (business-hours-start-today time-slot dt)
+                         (business-hours-end-today time-slot dt)
                          dt))
-            timings))))
+            time-slots))))
 
 
 (defn within-tomorrows-business-timings?
   [business-timings dt]
   (when (business-day-tomorrow? business-timings dt)
-    (let [timings (timings-tomorrow business-timings dt)]
-      (some (fn [timing]
-              (t/within? (business-hours-start-tomorrow timing dt)
-                         (business-hours-end-tomorrow timing dt)
+    (let [time-slots (timings-tomorrow business-timings dt)]
+      (some (fn [time-slot]
+              (t/within? (business-hours-start-tomorrow time-slot dt)
+                         (business-hours-end-tomorrow time-slot dt)
                          dt))
-            timings))))
+            time-slots))))
 
 
 (defn within-yesterdays-business-timings?
   [business-timings dt]
   (when (business-day-yesterday? business-timings dt)
-    (let [timings (timings-yesterday business-timings dt)]
-      (some (fn [timing]
-              (t/within? (busines-hours-start-yesterday timing dt)
-                         (business-hours-end-yesterday timing dt)
+    (let [time-slots (timings-yesterday business-timings dt)]
+      (some (fn [time-slot]
+              (t/within? (busines-hours-start-yesterday time-slot dt)
+                         (business-hours-end-yesterday time-slot dt)
                          dt))
-            timings))))
+            time-slots))))
 
 
 (defn within-business-timings?
