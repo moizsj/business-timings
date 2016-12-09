@@ -26,9 +26,7 @@
                       :to {:hours 12 :minutes 0}
                       :timezone "Pacific/Kiritimati"}]
                     ;; Wednesday
-                    [{:from {:hours 6 :minutes 0}
-                      :to {:hours 12 :minutes 30}
-                      :timezone "America/Los_Angeles"}]
+                    []
                     ;; Thursday
                     [{:from {:hours 3 :minutes 0}
                       :to {:hours 6 :minutes 0}
@@ -41,9 +39,7 @@
                       :to {:hours 0 :minutes 0}
                       :timezone "US/Hawaii"}]
                     ;; Saturday
-                    [{:from {:hours 9 :minutes 0}
-                      :to {:hours 12 :minutes 0}
-                      :timezone "Asia/Kolkata"}]
+                    []
                     ;; Sunday
                     [{:from {:hours 0 :minutes 0} ;;all day
                       :to {:hours 0 :minutes 0}
