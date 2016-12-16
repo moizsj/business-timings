@@ -15,20 +15,20 @@ Below is a Clojure map that represents an example business hours and days config
                     [{:from {:hours 16 :minutes 0}
                       :to {:hours 17 :minutes 0}
                       :timezone "Asia/Kolkata"}
-                     {:from {:hours 9 :minutes 0}
-                      :to {:hours 23 :minutes 0}
+                     {:from {:hours 13 :minutes 0}
+                      :to {:hours 18 :minutes 0}
                       :timezone "America/Los_Angeles"}]
                     ;; Tuesday
-                    [{:from {:hours 1 :minutes 0}
-                      :to {:hours 12 :minutes 0}
+                    [{:from {:hours 8 :minutes 0}
+                      :to {:hours 18 :minutes 0}
                       :timezone "Pacific/Kiritimati"}]
                     ;; Wednesday
                     []
                     ;; Thursday
-                    [{:from {:hours 3 :minutes 0}
-                      :to {:hours 6 :minutes 0}
+                    [{:from {:hours 1 :minutes 0}
+                      :to {:hours 3 :minutes 0}
                       :timezone "UTC"}
-                     {:from {:hours 8 :minutes 0}
+                     {:from {:hours 10 :minutes 0}
                       :to {:hours 18 :minutes 0}
                       :timezone "Asia/Kolkata"}]
                     ;; Friday
@@ -38,8 +38,8 @@ Below is a Clojure map that represents an example business hours and days config
                     ;; Saturday
                     []
                     ;; Sunday
-                    [{:from {:hours 0 :minutes 0} ;;all day
-                      :to {:hours 0 :minutes 0}
+                    [{:from {:hours 9 :minutes 0}
+                      :to {:hours 17 :minutes 0}
                       :timezone "US/Hawaii"}]]})
 ```
 
@@ -50,6 +50,10 @@ When a support ticket from a customer comes in, we need an automated way to chec
 ```clojure
 (within-business-timings? example-business-timings (t/now))
 ```
+
+## How this works
+This blog post goes into the details of the use case and the logic behind the implementation.
+[https://engineering.helpshift.com/2016/timezones-FP/](https://engineering.helpshift.com/2016/timezones-FP/)
 
 ## TODO
 add ability to tell how far away in hours and minutes is the next available business hours slot (PRs welcome!)
